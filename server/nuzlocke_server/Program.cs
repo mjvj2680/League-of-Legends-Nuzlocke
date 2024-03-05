@@ -25,11 +25,11 @@ public class Program
         // Make API call during startup
         var httpClientFactory = app.Services.GetRequiredService<IHttpClientFactory>();
         var httpClient = httpClientFactory.CreateClient();
-        var riotApiKey = app.Configuration["RiotApi:ApiKey"];
+        var riotApiKey = app.Configuration["RiotApi:RGAPI-3011088c-0d33-4170-930b-a108cddce085"];
         
         try
         {
-            var response = await httpClient.GetAsync($"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/TrojahnPower?api_key={riotApiKey}");
+            var response = await httpClient.GetAsync($"https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Trojahn%20Power?api_key=RGAPI-3011088c-0d33-4170-930b-a108cddce085");
             var content = await response.Content.ReadAsStringAsync();
             Console.WriteLine(content);
         }
