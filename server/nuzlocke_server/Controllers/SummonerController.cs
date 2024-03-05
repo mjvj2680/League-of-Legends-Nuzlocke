@@ -19,13 +19,16 @@ public class SummonerController : ControllerBase
     }
 
     [HttpGet("summoner")]
-    public async Task<IActionResult> GetSummonerInfo(string name, string tagline)
+    public async Task<IActionResult> GetSummonerInfo()
     {
         try
         {
-            var riotApiKey = _configuration["RiotApi:ApiKey"];
+            var summonerName = "TrojahnPower"; // Hardcoded summoner name
+            var tagline = "#EUW"; // Hardcoded tagline
+            var apiKey = "RGAPI-f8956065-dbc1-4831-b9c9-102cf6b21a73"; // Hardcoded API key
             var httpClient = _httpClientFactory.CreateClient();
-            var response = await httpClient.GetAsync($"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}?tagline={tagline}&api_key={riotApiKey}");
+
+            var response = await httpClient.GetAsync($"https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Trojahn%20Power?api_key=RGAPI-3011088c-0d33-4170-930b-a108cddce085");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -33,7 +36,10 @@ public class SummonerController : ControllerBase
             }
 
             var content = await response.Content.ReadAsStringAsync();
-            var summonerInfo = JsonConvert.DeserializeObject(content);
+            
+            // Deserialize the JSON response into SummonerInfo
+            var summonerInfo = JsonConvert.DeserializeObject<SummonerInfo>(content);
+
             return Ok(summonerInfo);
         }
         catch (Exception ex)

@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 public class Startup
 {
@@ -19,6 +21,16 @@ public class Startup
     {
         services.AddHttpClient();
         services.AddControllers();
+        services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost", builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000") // Replace with your React app's URL
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -29,6 +41,7 @@ public class Startup
         }
 
         app.UseRouting();
+        app.UseCors("AllowLocalhost");
 
         app.UseEndpoints(endpoints =>
         {

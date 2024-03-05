@@ -1,11 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
-
 public class Program
 {
     public static async Task Main(string[] args)
@@ -26,7 +18,7 @@ public class Program
         var httpClientFactory = app.Services.GetRequiredService<IHttpClientFactory>();
         var httpClient = httpClientFactory.CreateClient();
         var riotApiKey = app.Configuration["RiotApi:RGAPI-3011088c-0d33-4170-930b-a108cddce085"];
-        
+
         try
         {
             var response = await httpClient.GetAsync($"https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/Trojahn%20Power?api_key=RGAPI-3011088c-0d33-4170-930b-a108cddce085");
@@ -51,6 +43,6 @@ public class Program
             endpoints.MapControllers();
         });
 
-        app.Run();
+        await app.RunAsync();
     }
 }

@@ -5,7 +5,7 @@ const DataAccess = ({ accountInfo }) => {
 
   const getPuuid = async (summonerName, tagline) => {
     try {
-      const response = await fetch(`http://localhost:5122/api/summoner?name=${summonerName}&tagline=${tagline}`);
+      const response = await fetch(`http://localhost:5122/api/summoner`);
       const data = await response.json();
 
       if (response.ok) {
