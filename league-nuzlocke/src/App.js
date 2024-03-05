@@ -1,15 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
-import matchHistory from './pages/matchhistory';
+import React from 'react';
+import MatchHistoryByUid from './MatchHistoryByUid';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-     <matchHistory/>
-
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MatchHistoryByUid />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
