@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 [ApiController]
 [Route("api")]
@@ -23,15 +23,26 @@ public class SummonerController : ControllerBase
     {
         try
         {
-            var riotApiKey = _configuration["RiotApi:ApiKey"];
+            var riotApiKey = "RGAPI-cb139c63-5909-4352-834c-f6e6cc84db03";
             var httpClient = _httpClientFactory.CreateClient();
-            var response = await httpClient.GetAsync($"https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{name}?tagline={tagline}&api_key={riotApiKey}");
 
+            // Construct the request URL
+            var requestUrl = $"https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/lulufizz/euw?api_key=RGAPI-cb139c63-5909-4352-834c-f6e6cc84db03";
+
+            // Create the request and add the API key to the headers
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+           
+
+            // Send the request
+            var response = await httpClient.SendAsync(request);
+
+            // Check if the response is successful
             if (!response.IsSuccessStatusCode)
             {
                 return BadRequest($"Error fetching summoner info: {response.ReasonPhrase}");
             }
 
+            // Read the content and deserialize JSON response
             var content = await response.Content.ReadAsStringAsync();
             var summonerInfo = JsonConvert.DeserializeObject(content);
             return Ok(summonerInfo);
@@ -42,3 +53,4 @@ public class SummonerController : ControllerBase
         }
     }
 }
+

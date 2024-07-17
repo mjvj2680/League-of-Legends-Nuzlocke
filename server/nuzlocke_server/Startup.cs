@@ -18,7 +18,18 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddHttpClient();
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowReactApp",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+        });
         services.AddControllers();
+        services.AddHttpClient<RiotGamesService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -28,7 +39,13 @@ public class Startup
             app.UseDeveloperExceptionPage();
         }
 
+        app.UseHttpsRedirection();
+
         app.UseRouting();
+
+        app.UseCors("AllowReactApp");
+
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {

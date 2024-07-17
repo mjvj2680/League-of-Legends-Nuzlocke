@@ -1,11 +1,11 @@
 import React from 'react';
-import DataAccess from './dataaccess/DataAccess.jsx';
+import DataAccess from './dataaccess/dataaccess.jsx';
 
 const MatchHistoryByUid = () => {
   // Mock accountInfo data for testing purposes
   const accountInfo = {
-    summonerName: 'TrojahnPower',
-    tagline: '#EUW',
+    gameName: 'lulufizz',
+    tagline: 'EUW',
   };
 
   return (
